@@ -6,11 +6,12 @@ int **crearMatriz(int ,int );
 void darDatosMtz(int **,int fil, int );
 void mostrarMtz(int **, int , int );
 void liberarMtz(int **, int );
-void Mensajes(int );
+void Mensajes(int);
 
 int* crearArreglo(int);
 void sumaArreglos(int **,int *, int *, int );
 void mostrarArr(int* ,int);
+void liberar(int *);
 
 void main(){
 	int fil,col, **mtz,*arr1,*arr2;
@@ -25,6 +26,8 @@ void main(){
 	mostrarArr(arr1,fil);
 	mostrarArr(arr2,fil);
 	liberarMtz(mtz,fil);
+    liberar(arr1);
+    liberar(arr2);
 }
 
 void darDim(int *fil, int*col){
@@ -82,8 +85,8 @@ void liberarMtz(int **mtz, int fil){
 }
 
 void Mensajes(int msg){
-	char * mensaje[] = {"NO hay memoria disponible \n",
-				"Memoria liberada \n"};
+	char * mensaje[] = {"\nNO hay memoria disponible \n",
+				"\nMemoria liberada "};
 	
 	printf("%s", mensaje[msg]);
 }
@@ -98,42 +101,31 @@ int *crearArreglo(int n){
 
 void sumaArreglos(int **mtz,int *arr1, int *arr2, int n){
 	
-	for(int k=0;k<n;k++){
-		arr1[k]=1;
-		arr2[k]=1;
-	}
+	int o=0,p=0,b=n-1,k=0;
+    while(o<n){
+        arr1[o]=1;
+        arr2[o]=1;
+        p=o;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                if((p==0)&&(j==i)){
+                    arr1[o] *= mtz[i][j];
+                }else if((p==i)&&(i==(j+o))){
+                    arr1[o] *= mtz[i][j];
+                    p++;
+                }
+
+                if(0==(b-j)){
+                    while(b>=0){
+                        arr2[o] *= mtz[k++][b--];
+                    }
+                }
+            }
+        }
+        o++;b=(n-1-o);k=0;
+    }
 	
-	int o=0,u=0;
-	int p=0;
-	while(p<n){
-	
-		for(int i=p; i< n;i++){
-		for(int j=p-1; j<n ; j++){
-			printf("[i][j] = [%d][%d] \n",i,j);
-			
-				if((i==j)){
-				
-					
-					arr1[p] *= mtz[i][j];
-					printf("MTZ[%d] \n",mtz[i][j]);
-					printf("Arreglo1[$d] = %d \n",arr1[p]);
-					j=0;i++;
-				}
-				
-			
-			
-				if((j+i)==n-1){
-					arr2[p] *= mtz[i][j];
-					printf("MTZ[%d] \n",mtz[i][j]);
-					printf("Arreglo2 = %d \n",arr1[p]);
-				}
-			
-			
-		}
-	} p++;
-	}
-	
-		printf("Arreglos sum");
+    
 }
 
 void mostrarArr(int *arr,int n){
@@ -143,3 +135,8 @@ void mostrarArr(int *arr,int n){
 	}
 }
 
+
+void liberar(int *A){
+	free(A);
+	Mensajes(1);
+}
