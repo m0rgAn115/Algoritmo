@@ -1,0 +1,42 @@
+#include <stdio.h>
+
+
+void imprimirArreglo(int arr[], int n){
+    printf("\n[");
+    for (size_t i = 0; i < n; i++)
+    {
+        printf(" %d ",arr[i]);
+    }
+    printf("]");
+    
+}
+
+void MorganSort(int arr[], int n){
+    int p=0,aux;
+
+    while(p<n){
+        for (int i = 0; i < n; i++){
+            if(arr[p]<arr[i]){
+                aux = arr[p];
+                arr[p] = arr[i];
+                arr[i] = aux;
+                i=0;
+            }
+        }
+        p++;
+    }
+    
+    imprimirArreglo(arr,n);
+}
+
+
+
+void main(){
+    int arr[6] = {9,7,6,5,4,3};
+    int n = 6;
+
+
+    MorganSort(arr,n);
+
+}
+
